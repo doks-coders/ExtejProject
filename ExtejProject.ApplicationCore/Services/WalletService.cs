@@ -16,7 +16,7 @@ namespace ExtejProject.ApplicationCore.Services
 		}
 
 
-
+		//Gets the Seeded user from the database
 		public async Task<ApplicationUser> GetUser()
 		{
 			var users = await _unitOfWork.ApplicationUser.GetItems(u => u.Id != null);
@@ -25,6 +25,7 @@ namespace ExtejProject.ApplicationCore.Services
 			throw new Exception("No User");
 		}
 
+		//Get all the Crypto that the default user has
 		public async Task<List<CryptoBalanceResponse>> GetMyCrypto()
 		{
 			var user = await GetUser();
@@ -43,14 +44,9 @@ namespace ExtejProject.ApplicationCore.Services
 			return responses.Where(u=>u.TotalBalance>0).ToList();
 		}
 
-		public class TotalPricesResponse
-		{
-			public double Fiat { get; set; }
-			public double Crypto { get; set; }
-			public double Total { get; set; }
-		}
+	
 
-		//Get the price of all Fiat,total of Crypto and the total sum
+		//Get the price of all Fiat,total of Crypto and the total sum of both
 		public async Task<TotalPricesResponse> GetTotalPrices()
 		{
 			var myCrypto = await GetMyCrypto();
@@ -69,7 +65,7 @@ namespace ExtejProject.ApplicationCore.Services
 			return response;
 		}
 
-		//This method gets all the information for different available cryptos
+		//This gets all the information for available cryptos
 		public async Task<IEnumerable<CryptoInfoResponse>> GetCryptoInformation()
 		{
 			var user = await GetUser();
@@ -90,7 +86,7 @@ namespace ExtejProject.ApplicationCore.Services
 		}
 
 		
-		//This method returns the Account Cards of Users
+		//This returns the Account Cards of the default user
 		public async Task<IEnumerable<CardResponse>> GetMyCards()
 		{
 			var user = await GetUser();
@@ -112,7 +108,7 @@ namespace ExtejProject.ApplicationCore.Services
 			return response;
 		}
 
-		
+		//Get all transactions for the default user
 		public async Task<IEnumerable<TransactionResponse>> GetMyTransactions()
 		{
 			var user = await GetUser();

@@ -16,12 +16,6 @@ namespace ExtejProject.Infrastructure.Repositories
 		}
 	}
 
-	public interface ICryptoCurrencyRepository:IBaseRepository<CryptoCurrency>
-	{
-
-	}
-
-
 
 	public class TransactionRepository : BaseRepository<Transaction>, ITransactionRepository
 	{
@@ -30,26 +24,14 @@ namespace ExtejProject.Infrastructure.Repositories
 		}
 	}
 
-	public interface ITransactionRepository : IBaseRepository<Transaction>
-	{
-
-	}
-
-
-
+	
 	public class ApplicationUserRepository : BaseRepository<ApplicationUser>, IApplicationUserRepository
 	{
 		public ApplicationUserRepository(ApplicationDbContext context) : base(context)
 		{
 		}
 	}
-
-	public interface IApplicationUserRepository : IBaseRepository<ApplicationUser>
-	{
-
-	}
-
-
+	
 	public class AccountCardRepository : BaseRepository<AccountCard>, IAccountCardRepository
 	{
 		public AccountCardRepository(ApplicationDbContext context) : base(context)
@@ -57,8 +39,5 @@ namespace ExtejProject.Infrastructure.Repositories
 		}
 	}
 
-	public interface IAccountCardRepository : IBaseRepository<AccountCard>
-	{
-
-	}
+	
 }

@@ -15,6 +15,70 @@ namespace ExtejProject.ApplicationCore.Services
 			_unitOfWork = unitOfWork;
 		}
 
+		//This method is used for adding cryptocurrencies to the database
+		public async Task SeedCryptoCurrencies()
+		{
+
+			var bitcoinIntervals = GetDailyData();
+			var bitcoin = new CryptoCurrency()
+			{
+				NickName = "BTC",
+				RateIntervals = bitcoinIntervals,
+				Name = "Bitcoin",
+			};
+
+
+			var ethereumIntervals = GetDailyData();
+			var ethereum = new CryptoCurrency()
+			{
+				NickName = "ETH",
+				RateIntervals = ethereumIntervals,
+				Name = "Ethereum",
+			};
+
+			var binanceIntervals = GetDailyData();
+			var binance = new CryptoCurrency()
+			{
+				NickName = "BIN",
+				RateIntervals = binanceIntervals,
+				Name = "Binance Coin",
+			};
+
+			var usdCoinIntervals = GetDailyData();
+			var usdCoin = new CryptoCurrency()
+			{
+				NickName = "USD",
+				RateIntervals = usdCoinIntervals,
+				Name = "USD Coin",
+			};
+
+
+			var rippleIntervals = GetDailyData();
+			var ripple = new CryptoCurrency()
+			{
+				NickName = "XRP",
+				RateIntervals = rippleIntervals,
+				Name = "Ripple",
+			};
+
+
+
+			List<CryptoCurrency> cryptos = new() { bitcoin, ethereum, usdCoin, ripple, binance };
+			await _unitOfWork.CryptoCurrency.AddItems(cryptos);
+		}
+
+		//Adds a default user
+		public async Task SeedUser()
+		{
+			await _unitOfWork.ApplicationUser.AddItem(new ApplicationUser()
+			{
+				FullName = "Daniel Odokuma",
+				JobRole = "Backend Developer",
+				AllocatedPrice = 500000
+			});
+		}
+
+		//Adds transactions to the database. These transactions will be linked to the total amount of available cryptos
 		public async Task SeedTransactions()
 		{
 			var currencies = await _unitOfWork.CryptoCurrency.GetItems(u => u.Id != null);
@@ -116,57 +180,8 @@ namespace ExtejProject.ApplicationCore.Services
 
 		}
 
-		public async Task SeedCryptoCurrencies()
-		{
-
-			var bitcoinIntervals = GetDailyData();
-			var bitcoin = new CryptoCurrency()
-			{
-				NickName = "BTC",
-				RateIntervals = bitcoinIntervals,
-				Name = "Bitcoin",
-			};
-
-
-			var ethereumIntervals = GetDailyData();
-			var ethereum = new CryptoCurrency()
-			{
-				NickName = "ETH",
-				RateIntervals = ethereumIntervals,
-				Name = "Ethereum",
-			};
-
-			var binanceIntervals = GetDailyData();
-			var binance = new CryptoCurrency()
-			{
-				NickName = "BIN",
-				RateIntervals = binanceIntervals,
-				Name = "Binance Coin",
-			};
-
-			var usdCoinIntervals = GetDailyData();
-			var usdCoin = new CryptoCurrency()
-			{
-				NickName = "USD",
-				RateIntervals = usdCoinIntervals,
-				Name = "USD Coin",
-			};
-
-
-			var rippleIntervals = GetDailyData();
-			var ripple = new CryptoCurrency()
-			{
-				NickName = "XRP",
-				RateIntervals = rippleIntervals,
-				Name = "Ripple",
-			};
-
-
-
-			List<CryptoCurrency> cryptos = new() { bitcoin, ethereum, usdCoin, ripple,binance };
-			 await _unitOfWork.CryptoCurrency.AddItems(cryptos);
-		}
-
+	
+		//Adds Account Cards to Database
 		public async Task SeedCards()
 		{
 			var users = await _unitOfWork.ApplicationUser.GetItems(u => u.Id != null);
@@ -202,16 +217,8 @@ namespace ExtejProject.ApplicationCore.Services
 			await _unitOfWork.AccountCard.AddItems(accountCards);
 		}
 
-		public async Task SeedUser()
-		{
-			await _unitOfWork.ApplicationUser.AddItem(new ApplicationUser()
-			{
-				FullName = "Daniel Odokuma",
-				JobRole = "Backend Developer",
-				AllocatedPrice=500000
-			});
-		}
-
+		
+		//This generates the 26hrs of prices changes for each crypto currency
 		private string GetDailyData()
 		{
 			int hours = 25;

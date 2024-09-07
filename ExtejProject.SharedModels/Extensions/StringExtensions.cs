@@ -14,6 +14,8 @@ namespace ExtejProject.SharedModels.Extensions
 			public double hour { get; set; }
 			public double rate { get; set; }
 		}
+
+		//This gets the current price from the last index, which should be the most recent change in price
 		public static double GetCurrentPrice(this string intervalsString)
 		{
 			var intervals = JsonSerializer.Deserialize<List<Intervals>>(intervalsString);
@@ -21,6 +23,8 @@ namespace ExtejProject.SharedModels.Extensions
 	
 			return lastinterval.rate;
 		}
+
+		//This get change rate which is the rate change between the last price and the prior price
 		public static double GetChangeRate(this string intervalsString)
 		{
 			var intervals = JsonSerializer.Deserialize<List<Intervals>>(intervalsString);
@@ -32,6 +36,7 @@ namespace ExtejProject.SharedModels.Extensions
 			return changeRate;
 		}
 
+		//This gets the rate change fromthe 24th price and the recent price.
 		public static double GetChangeRate24hr(this string intervalsString)
 		{
 			var allHours = 25;
@@ -42,6 +47,7 @@ namespace ExtejProject.SharedModels.Extensions
 			double changeRate = (diff / _24HrInterval.rate) * 100;
 			return changeRate;
 		}
+		//This gets the rate change fromthe 7th price and the recent price.
 		public static double GetChangeRate7hr(this string intervalsString)
 		{
 			var allHours = 25;
