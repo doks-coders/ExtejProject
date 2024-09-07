@@ -82,7 +82,7 @@ namespace ExtejProject.Server
 						await db.Database.MigrateAsync();
 						var logger = services.GetService<ILogger<Program>>();
 						logger.LogInformation("Migration Successfull");
-						await AppSeed.SeedProcess(seedService);
+						await AppSeed.SeedProcess(seedService); 
 
 					}
 					
