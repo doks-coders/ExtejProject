@@ -29,11 +29,12 @@ namespace ExtejProject.ApplicationCore.Services
 		public async Task<List<CryptoBalanceResponse>> GetMyCrypto()
 		{
 			var user = await GetUser();
-			
+
 			var cryptos = await _unitOfWork.CryptoCurrency.GetItems(u => u.Id != null, includeProperties: "Transactions");
 
-			var responses = cryptos.Select(u => {
-				var holdings =  u.Transactions.Where(u => u.Status == "Recieved" && u.ApplicationUserId == user.Id).Sum(u => u.CryptoAmount);
+			var responses = cryptos.Select(u =>
+			{
+				var holdings = u.Transactions.Where(u => u.Status == "Recieved" && u.ApplicationUserId == user.Id).Sum(u => u.CryptoAmount);
 				return new CryptoBalanceResponse()
 				{
 					TotalBalance = holdings * u.RateIntervals.GetCurrentPrice(),
@@ -41,10 +42,10 @@ namespace ExtejProject.ApplicationCore.Services
 				};
 			}).ToList();
 
-			return responses.Where(u=>u.TotalBalance>0).ToList();
+			return responses.Where(u => u.TotalBalance > 0).ToList();
 		}
 
-	
+
 
 		//Get the price of all Fiat,total of Crypto and the total sum of both
 		public async Task<TotalPricesResponse> GetTotalPrices()
@@ -75,7 +76,7 @@ namespace ExtejProject.ApplicationCore.Services
 			{
 				ChangeRate = u.RateIntervals.GetChangeRate(),
 				CurrentPrice = u.RateIntervals.GetCurrentPrice(),
-				Holdings = u.Transactions.Where(u => u.Status == "Recieved" && u.ApplicationUserId==user.Id).Sum(u => u.CryptoAmount),
+				Holdings = u.Transactions.Where(u => u.Status == "Recieved" && u.ApplicationUserId == user.Id).Sum(u => u.CryptoAmount),
 				Name = u.Name,
 				NickName = u.NickName,
 				RateIntervals = u.RateIntervals
@@ -85,7 +86,7 @@ namespace ExtejProject.ApplicationCore.Services
 			return responses;
 		}
 
-		
+
 		//This returns the Account Cards of the default user
 		public async Task<IEnumerable<CardResponse>> GetMyCards()
 		{
@@ -113,7 +114,7 @@ namespace ExtejProject.ApplicationCore.Services
 		{
 			var user = await GetUser();
 			var userId = user.Id;
-			var transactions = await _unitOfWork.Transaction.GetItems(u => u.ApplicationUserId == userId,includeProperties: "Crypto");
+			var transactions = await _unitOfWork.Transaction.GetItems(u => u.ApplicationUserId == userId, includeProperties: "Crypto");
 			var responses = transactions.Select(u =>
 			{
 				string transactionLink = u.TransactionLink;
@@ -125,14 +126,14 @@ namespace ExtejProject.ApplicationCore.Services
 					Created = u.Created,
 					CryptoAmount = u.CryptoAmount,
 					CryptoName = u.Crypto.Name,
-					TransactionLink = transactionLink.Substring(0, 4)+"..."+transactionLink.Substring(length - 5, 4),
+					TransactionLink = transactionLink.Substring(0, 4) + "..." + transactionLink.Substring(length - 5, 4),
 					_24hrRate = u.Crypto.RateIntervals.GetChangeRate24hr(),
 					_7hrRate = u.Crypto.RateIntervals.GetChangeRate7hr()
 				};
 
 			});
-			
-			
+
+
 
 			return responses;
 		}

@@ -15,7 +15,7 @@ namespace ExtejProject.SharedModels.Extensions
 		{
 			var intervals = JsonSerializer.Deserialize<List<Intervals>>(intervalsString);
 			var lastinterval = intervals[intervals.Count - 1];
-	
+
 			return lastinterval.rate;
 		}
 
@@ -27,7 +27,7 @@ namespace ExtejProject.SharedModels.Extensions
 			var secondToLast = intervals[intervals.Count - 2];
 
 			double diff = lastinterval.rate - secondToLast.rate;
-			double changeRate = (diff/secondToLast.rate) * 100;
+			double changeRate = (diff / secondToLast.rate) * 100;
 			return changeRate;
 		}
 
@@ -37,7 +37,7 @@ namespace ExtejProject.SharedModels.Extensions
 			var allHours = 25;
 			var intervals = JsonSerializer.Deserialize<List<Intervals>>(intervalsString);
 			var lastinterval = intervals[intervals.Count - 1];
-			var _24HrInterval = intervals.Where(u=>u.hour== allHours-24).FirstOrDefault();
+			var _24HrInterval = intervals.Where(u => u.hour == allHours - 24).FirstOrDefault();
 			double diff = lastinterval.rate - _24HrInterval.rate;
 			double changeRate = (diff / _24HrInterval.rate) * 100;
 			return changeRate;

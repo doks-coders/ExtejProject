@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ExtejProject.SharedModels.Entities
+﻿namespace ExtejProject.SharedModels.Entities
 {
-	public class CryptoCurrency:BaseEntity
+	public class CryptoCurrency : BaseEntity
 	{
 		public string Name { get; set; }
 		public string NickName { get; set; }

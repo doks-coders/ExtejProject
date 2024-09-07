@@ -180,7 +180,7 @@ namespace ExtejProject.ApplicationCore.Services
 
 		}
 
-	
+
 		//Adds Account Cards to Database
 		public async Task SeedCards()
 		{
@@ -217,7 +217,7 @@ namespace ExtejProject.ApplicationCore.Services
 			await _unitOfWork.AccountCard.AddItems(accountCards);
 		}
 
-		
+
 		//This generates the 26hrs of prices changes for each crypto currency
 		private string GetDailyData()
 		{

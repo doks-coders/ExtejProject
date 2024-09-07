@@ -4,9 +4,7 @@ using ExtejProject.ApplicationCore.Services;
 using ExtejProject.Infrastructure.Data;
 using ExtejProject.Server.Extensions;
 using ExtejProject.Server.Seeds;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 
 namespace ExtejProject.Server
 {
@@ -20,9 +18,9 @@ namespace ExtejProject.Server
 
 			builder.Services.AddControllers();
 			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-			
+
 			builder.Services.AddSwaggerGen();
-			builder.Services.AddCoreServices(builder.Configuration,builder.Environment);
+			builder.Services.AddCoreServices(builder.Configuration, builder.Environment);
 			builder.Services.RegisterServices();
 
 			builder.Services.AddCors(options =>
@@ -63,11 +61,11 @@ namespace ExtejProject.Server
 			app.UseAuthentication();
 			app.UseAuthorization();
 
-		
+
 
 			app.MapControllers();
 
-			
+
 
 
 			using (var scope = app.Services.CreateScope())
@@ -85,7 +83,7 @@ namespace ExtejProject.Server
 					var connectionString = db.Database.GetDbConnection().ConnectionString;
 					Console.WriteLine($"Connection string used: {connectionString}");
 
-				
+
 					var pending = await db.Database.GetPendingMigrationsAsync();
 
 					Console.WriteLine("ILogger<Program>");
@@ -98,7 +96,7 @@ namespace ExtejProject.Server
 
 						Console.WriteLine("ISeedService");
 						var seedService = services.GetRequiredService<ISeedService>();
-						
+
 						await AppSeed.SeedProcess(seedService);
 
 					}
@@ -106,7 +104,7 @@ namespace ExtejProject.Server
 					{
 						logger.LogInformation("No Migrations Pending");
 					}
-					
+
 				}
 				catch (Exception ex)
 				{

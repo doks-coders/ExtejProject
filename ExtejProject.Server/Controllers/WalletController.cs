@@ -1,5 +1,4 @@
 ﻿using ExtejProject.ApplicationCore.Interfaces;
-using ExtejProject.SharedModels.Responses;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ExtejProject.Server.Controllers
@@ -12,20 +11,19 @@ namespace ExtejProject.Server.Controllers
 		{
 			_walletService = walletService;
 		}
-		
 
-		[HttpGet("get-my-crypto")] 
+
+		[HttpGet("get-my-crypto")]
 		public async Task<ActionResult> GetMyCrypto()
 		{
-			
-			return Ok(await _walletService.GetMyCrypto()); 
+			return Ok(await _walletService.GetMyCrypto());
 		}
 
-		
 
-		[HttpGet("get-my-cards")] 
+
+		[HttpGet("get-my-cards")]
 		public async Task<ActionResult> GetMyCards()
-		{	
+		{
 			return Ok(await _walletService.GetMyCards());
 		}
 
@@ -35,16 +33,16 @@ namespace ExtejProject.Server.Controllers
 			return Ok(await _walletService.GetTotalPrices());
 		}
 
-		[HttpGet("get-crypto-information")] 
+		[HttpGet("get-crypto-information")]
 		public async Task<ActionResult> GetCryptoInformation()
-		{	
+		{
 			return Ok(await _walletService.GetCryptoInformation());
 		}
 
-		[HttpGet("get-my-transactions")] 
+		[HttpGet("get-my-transactions")]
 		public async Task<ActionResult> GetMyTransactions()
 		{
-			
+
 			return Ok(await _walletService.GetMyTransactions());
 		}
 

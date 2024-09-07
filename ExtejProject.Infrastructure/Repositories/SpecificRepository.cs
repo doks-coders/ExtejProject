@@ -1,11 +1,6 @@
 ﻿using ExtejProject.Infrastructure.Data;
 using ExtejProject.Infrastructure.Interfaces;
 using ExtejProject.SharedModels.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ExtejProject.Infrastructure.Repositories
 {
@@ -24,14 +19,14 @@ namespace ExtejProject.Infrastructure.Repositories
 		}
 	}
 
-	
+
 	public class ApplicationUserRepository : BaseRepository<ApplicationUser>, IApplicationUserRepository
 	{
 		public ApplicationUserRepository(ApplicationDbContext context) : base(context)
 		{
 		}
 	}
-	
+
 	public class AccountCardRepository : BaseRepository<AccountCard>, IAccountCardRepository
 	{
 		public AccountCardRepository(ApplicationDbContext context) : base(context)
@@ -39,5 +34,5 @@ namespace ExtejProject.Infrastructure.Repositories
 		}
 	}
 
-	
+
 }

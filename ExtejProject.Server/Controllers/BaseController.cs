@@ -6,6 +6,6 @@ namespace ExtejProject.Server.Controllers
 	[Route("api/[controller]")]
 	public class BaseController : ControllerBase
 	{
-		
+
 	}
 }
