@@ -1,7 +1,6 @@
 ﻿using ExtejProject.Infrastructure.Data;
 using ExtejProject.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace ExtejProject.Server.Extensions
 {

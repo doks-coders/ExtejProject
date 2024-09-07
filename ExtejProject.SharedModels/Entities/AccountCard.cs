@@ -14,17 +14,3 @@ namespace ExtejProject.SharedModels.Entities
 		public long DebitNumber { get; set; }	
 	}
 }
-
-/**
- * 
- * Name
-DebitNumber
-Color
-
-Mastercard : light blue
-Visa : o
-American Express
-Discover Financial
-
-
- */

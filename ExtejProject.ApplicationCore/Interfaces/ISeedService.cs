@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ExtejProject.ApplicationCore.Interfaces
+﻿namespace ExtejProject.ApplicationCore.Interfaces
 {
-    public interface ISeedService
+	public interface ISeedService
     {
 		Task SeedCryptoCurrencies();
 		Task SeedTransactions();
