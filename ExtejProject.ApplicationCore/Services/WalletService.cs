@@ -50,7 +50,7 @@ namespace ExtejProject.ApplicationCore.Services
 			public double Total { get; set; }
 		}
 
-	
+		//Get the price of all Fiat,total of Crypto and the total sum
 		public async Task<TotalPricesResponse> GetTotalPrices()
 		{
 			var myCrypto = await GetMyCrypto();
@@ -69,7 +69,7 @@ namespace ExtejProject.ApplicationCore.Services
 			return response;
 		}
 
-		
+		//This method gets all the information for different available cryptos
 		public async Task<IEnumerable<CryptoInfoResponse>> GetCryptoInformation()
 		{
 			var user = await GetUser();
@@ -90,7 +90,7 @@ namespace ExtejProject.ApplicationCore.Services
 		}
 
 		
-
+		//This method returns the Account Cards of Users
 		public async Task<IEnumerable<CardResponse>> GetMyCards()
 		{
 			var user = await GetUser();

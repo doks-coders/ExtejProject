@@ -6,6 +6,7 @@ using ExtejProject.Server.Extensions;
 using ExtejProject.Server.Seeds;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace ExtejProject.Server
 {
@@ -19,7 +20,7 @@ namespace ExtejProject.Server
 
 			builder.Services.AddControllers();
 			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-			builder.Services.AddEndpointsApiExplorer();
+			
 			builder.Services.AddSwaggerGen();
 			builder.Services.AddCoreServices(builder.Configuration,builder.Environment);
 			builder.Services.RegisterServices();
@@ -33,10 +34,11 @@ namespace ExtejProject.Server
 						.AllowAnyHeader()
 						.AllowCredentials());
 			});
+			builder.Services.AddEndpointsApiExplorer();
+			builder.Services.AddSwaggerGen();
+			builder.Services.AddHttpContextAccessor();
 			var app = builder.Build();
 
-			app.UseDefaultFiles();
-			app.UseStaticFiles();
 
 			// Configure the HTTP request pipeline.
 			if (app.Environment.IsDevelopment())
@@ -58,6 +60,7 @@ namespace ExtejProject.Server
 
 			app.UseHttpsRedirection();
 
+			app.UseAuthentication();
 			app.UseAuthorization();
 
 		
@@ -73,17 +76,35 @@ namespace ExtejProject.Server
 
 				try
 				{
+					Console.WriteLine("ApplicationDbContext");
 					var db = services.GetRequiredService<ApplicationDbContext>();
-					var seedService = services.GetRequiredService<ISeedService>();
-					var pending = await db.Database.GetPendingMigrationsAsync();
+
+					var environment = services.GetRequiredService<IWebHostEnvironment>();
+					Console.WriteLine($"Running in environment: {environment.EnvironmentName}");
+
+					var connectionString = db.Database.GetDbConnection().ConnectionString;
+					Console.WriteLine($"Connection string used: {connectionString}");
+
 				
+					var pending = await db.Database.GetPendingMigrationsAsync();
+
+					Console.WriteLine("ILogger<Program>");
+					var logger = services.GetService<ILogger<Program>>();
+
 					if (pending.Count() > 0)
 					{
+						Console.WriteLine("Migrated Async");
 						await db.Database.MigrateAsync();
-						var logger = services.GetService<ILogger<Program>>();
-						logger.LogInformation("Migration Successfull");
-						await AppSeed.SeedProcess(seedService); 
 
+						Console.WriteLine("ISeedService");
+						var seedService = services.GetRequiredService<ISeedService>();
+						
+						await AppSeed.SeedProcess(seedService);
+
+					}
+					else
+					{
+						logger.LogInformation("No Migrations Pending");
 					}
 					
 				}
@@ -91,6 +112,8 @@ namespace ExtejProject.Server
 				{
 					var logger = services.GetService<ILogger<Program>>();
 					logger.LogError(ex, "An Error Occurred during Migration");
+
+					logger.LogError("Check this Exception Message", ex.Message);
 				}
 
 			}

@@ -7,10 +7,9 @@ namespace ExtejProject.Server.Extensions
 {
 	public static class ApplicationExtensions
 	{
-		public static IServiceCollection AddCoreServices(this IServiceCollection services,IConfiguration config, IWebHostEnvironment environment)
+		public static IServiceCollection AddCoreServices(this IServiceCollection services, IConfiguration config, IWebHostEnvironment environment)
 		{
-
-			services.AddDbContext<ApplicationDbContext>(u => u.UseNpgsql(config.GetConnectionString("DefaultConnection")));
+			services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 			var connString = "";
 			if (environment.IsDevelopment())
@@ -22,7 +21,7 @@ namespace ExtejProject.Server.Extensions
 
 				// Use connection string provided at runtime by FlyIO.
 				var connUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
-
+				Console.WriteLine(connUrl);
 				// Parse connection URL to connection string for Npgsql
 				connUrl = connUrl.Replace("postgres://", string.Empty);
 				var pgUserPass = connUrl.Split("@")[0];
@@ -36,15 +35,12 @@ namespace ExtejProject.Server.Extensions
 				var updatedHost = pgHost.Replace("flycast", "internal");
 
 				connString = $"Server={updatedHost};Port={pgPort};User Id={pgUser};Password={pgPass};Database={pgDb};";
-
 			}
 
 			services.AddDbContext<ApplicationDbContext>(opt =>
 			{
 				opt.UseNpgsql(connString);
 			});
-
-			services.AddScoped<IUnitOfWork, UnitOfWork>();
 			return services;
 		}
 	}

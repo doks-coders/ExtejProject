@@ -59,6 +59,18 @@ namespace ExtejProject.ApplicationCore.Services
 					ApplicationUserId = user.Id
 				},
 
+
+
+				new Transaction()
+				{
+					Status="Sent",
+					Amount=67878,
+					CryptoAmount=67878/ethereum.RateIntervals.GetCurrentPrice(),
+					CryptoId = ethereum.Id,
+					TransactionLink = Guid.NewGuid().ToString("N").Substring(0, 12),
+					ApplicationUserId = user.Id
+				},
+
 				new Transaction()
 				{
 					Status="Recieved",

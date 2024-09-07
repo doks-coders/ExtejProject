@@ -1,0 +1,8 @@
+**/bin
+**/obj
+node_modules
+.git
+logs
+*.log
+#They're going to get created from the dot net restore and a dot net publish 
+#command anyway, So we don't need to copy those over so that we can ignore them.
