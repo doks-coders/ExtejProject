@@ -17,7 +17,6 @@ namespace ExtejProject.Server.Extensions
 			}
 			else
 			{
-
 				// Use connection string provided at runtime by FlyIO.
 				var connUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
 				Console.WriteLine(connUrl);

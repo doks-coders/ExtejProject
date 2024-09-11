@@ -74,27 +74,19 @@ namespace ExtejProject.Server
 
 				try
 				{
-					Console.WriteLine("ApplicationDbContext");
 					var db = services.GetRequiredService<ApplicationDbContext>();
 
 					var environment = services.GetRequiredService<IWebHostEnvironment>();
-					Console.WriteLine($"Running in environment: {environment.EnvironmentName}");
 
 					var connectionString = db.Database.GetDbConnection().ConnectionString;
-					Console.WriteLine($"Connection string used: {connectionString}");
-
 
 					var pending = await db.Database.GetPendingMigrationsAsync();
-
-					Console.WriteLine("ILogger<Program>");
 					var logger = services.GetService<ILogger<Program>>();
 
 					if (pending.Count() > 0)
 					{
-						Console.WriteLine("Migrated Async");
-						await db.Database.MigrateAsync();
 
-						Console.WriteLine("ISeedService");
+						await db.Database.MigrateAsync();
 						var seedService = services.GetRequiredService<ISeedService>();
 
 						await AppSeed.SeedProcess(seedService);
@@ -110,8 +102,6 @@ namespace ExtejProject.Server
 				{
 					var logger = services.GetService<ILogger<Program>>();
 					logger.LogError(ex, "An Error Occurred during Migration");
-
-					logger.LogError("Check this Exception Message", ex.Message);
 				}
 
 			}
